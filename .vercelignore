@@ -4,6 +4,7 @@
 /*
 !/web
 !/vercel.json
+!/index.html
 
 # local-only helper, not needed on the website
 /web/*.bat

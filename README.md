@@ -31,7 +31,7 @@ Then open http://localhost:8080. Saved estimates are kept in that browser's loca
 ## Deploy to Vercel
 
 Import this repo in Vercel with Framework Preset **Other**, no build command, Root Directory left empty.
-`vercel.json` serves `web/index.html` at the site root. Saved estimates stay in each visitor's own browser.
+A tiny root `index.html` forwards visitors to `web/`, so the site root works on any static host. Saved estimates stay in each visitor's own browser.
 
 ## Build the Android APK
 
