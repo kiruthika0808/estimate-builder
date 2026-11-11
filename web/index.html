@@ -75,8 +75,8 @@ h1 .grad{background:linear-gradient(90deg,var(--violet),var(--pink),var(--orange
 /* fields */
 .fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
 .fields .wide{grid-column:1/-1}
-label.f{display:grid;gap:6px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-label.f .req{color:var(--pink)}
+.f{display:grid;gap:6px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.f .req{color:var(--pink)}
 input[type=text],input[type=number],input[type=search]{font:inherit;font-size:15px;text-transform:none;letter-spacing:0;color:var(--ink);background:var(--surface-2);border:1.5px solid var(--line);border-radius:12px;padding:11px 13px;width:100%;transition:border-color .2s, box-shadow .2s}
 input:focus-visible{outline:none;border-color:var(--violet);box-shadow:0 0 0 4px color-mix(in srgb,var(--violet) 22%,transparent)}
 input.invalid{border-color:var(--bad);animation:shake .4s}
@@ -132,6 +132,14 @@ input[type=range]{width:100%;accent-color:var(--violet)}
 .tier.on b{color:var(--violet)}
 .dchk.addon:has(input:checked){border-color:var(--violet);background:color-mix(in srgb,var(--violet) 9%,var(--surface))}
 .dchk.addon input:checked ~ .box{background:var(--violet);border-color:var(--violet)}
+.prepby{grid-column:1/-1;margin:6px 0 -4px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.prepby small{font-weight:600;letter-spacing:0;text-transform:none;color:var(--muted)}
+input[type=email]{font:inherit;font-size:16px;color:var(--ink);background:var(--surface-2);border:1.5px solid var(--line);border-radius:12px;padding:11px 13px;width:100%;text-transform:none;letter-spacing:0;transition:border-color .2s, box-shadow .2s}
+.bd-row.save b{color:var(--good)}
+.bd-row.save span{color:var(--good);font-weight:600}
+.bd-row.sub span{color:var(--ink)}
+.hb.save{background:rgba(255,255,255,.32)}
+.for small{display:block;font-weight:500;opacity:.9}
 .sublabel{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:16px 0 10px}
 .allrow{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
 .mini{font:inherit;font-size:12.5px;font-weight:700;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 12px;cursor:pointer}
@@ -296,17 +304,30 @@ footer b{color:var(--ink)}
       <div class="panel step">
         <div class="step-h"><span class="num n1">1</span><div><h2>School details</h2><p>The date and estimate number are added automatically.</p></div></div>
         <div class="fields">
-          <label class="f wide" for="school">School name <span class="req">*</span>
+          <label class="f wide" for="school"><span>School name <span class="req">*</span></span>
             <input type="text" id="school" placeholder="Type the school's full name" autocomplete="off">
             <span class="err" id="schoolErr"></span>
           </label>
-          <label class="f" for="students">Number of students <span class="req">*</span><input type="number" id="students" min="1" max="20000" value="300"></label>
+          <label class="f" for="incharge"><span>School in-charge name <span class="req">*</span></span>
+            <input type="text" id="incharge" placeholder="e.g. Mrs. R. Lakshmi, Principal" autocomplete="off" maxlength="80">
+            <span class="err" id="inchargeErr"></span>
+          </label>
+          <label class="f" for="students"><span>Number of students <span class="req">*</span></span><input type="number" id="students" min="1" max="20000" value="300"></label>
           <div class="f">Estimate date<div class="ro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span id="dateOut"></span></div></div>
           <div class="f">Estimate no.<div class="ro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9h16M4 15h16M10 3L8 21M16 3l-2 18"/></svg><span id="noOut"></span></div></div>
           <div class="slider-row">
             <input type="range" id="studentsRange" min="50" max="3000" step="10" value="300" aria-label="Number of students slider">
             <div class="range-scale"><span>50</span><span>750</span><span>1,500</span><span>2,250</span><span>3,000</span></div>
           </div>
+          <div class="sublabel prepby">Prepared by <small>Remembered for your next estimate</small></div>
+          <label class="f" for="execName"><span>Executive name <span class="req">*</span></span>
+            <input type="text" id="execName" placeholder="Your full name" autocomplete="name" maxlength="60">
+            <span class="err" id="execNameErr"></span>
+          </label>
+          <label class="f" for="execEmail"><span>Executive email <span class="req">*</span></span>
+            <input type="email" id="execEmail" placeholder="name@uniqnextgen.in" autocomplete="email" maxlength="80" inputmode="email">
+            <span class="err" id="execEmailErr"></span>
+          </label>
         </div>
       </div>
 
@@ -402,7 +423,7 @@ footer b{color:var(--ink)}
   <section>
     <div class="sec-h">
       <div><h2>Saved estimates</h2><p>Every generated estimate is saved here. Edit one to change it, or download its PDF again.</p></div>
-      <div class="saved-tools"><input type="search" id="search" placeholder="Search school or estimate no." aria-label="Search saved estimates"><span class="store-note" id="storeNote"></span></div>
+      <div class="saved-tools"><input type="search" id="search" placeholder="Search school, in-charge, executive or estimate no." aria-label="Search saved estimates"><span class="store-note" id="storeNote"></span></div>
     </div>
     <div class="est-list" id="estList"></div>
   </section>
@@ -454,13 +475,14 @@ footer b{color:var(--ink)}
   ];
   const AV_COLORS = ['#6c3fd6','#e3437f','#f06a22','#0e8a7d','#e9a30f','#3b5bdb','#c0307a'];
   const TRAINER_LABEL = {students:'Students', teachers:'Computer teachers'};
-  const fresh = () => ({school:'', students:300, trainer:'students', feats:{books:0,notebook:0,competitions:0,robotics:0}, addon:0, addonName:'', discount:0, gst:0});
+  const execSaved = () => { try { return JSON.parse(localStorage.getItem('ung-exec') || '{}'); } catch(e){ return {}; } };
+  const fresh = () => ({school:'', incharge:'', execName: execSaved().name || '', execEmail: execSaved().email || '', students:300, trainer:'students', feats:{books:0,notebook:0,competitions:0,robotics:0}, addon:0, addonName:'', discount:0, gst:0});
   let state = fresh();
   let editing = null;          // saved record opened with Edit
   let current = null;          // record created by Generate in this session (re-generating updates it)
   let generated = null;        // {key, rec} – the estimate shown in the quote panel
   let wasStale = false;
-  const stateKey = st => JSON.stringify([st.school.trim(), Math.floor(st.students)||0, st.trainer, st.feats, st.addon?1:0, st.addon?(st.addonName||'').trim():'', +st.discount||0, +st.gst||0]);
+  const stateKey = st => JSON.stringify([st.school.trim(), (st.incharge||'').trim(), (st.execName||'').trim(), (st.execEmail||'').trim(), Math.floor(st.students)||0, st.trainer, st.feats, st.addon?1:0, st.addon?(st.addonName||'').trim():'', +st.discount||0, +st.gst||0]);
   let saved = [];              // all saved estimates
   let store = null;            // storage adapter
 
@@ -541,7 +563,8 @@ footer b{color:var(--ink)}
     const afterDisc = base - discAmt;
     const gstAmt = Math.round(afterDisc*gst)/100;
     const finalPer = Math.round((afterDisc + gstAmt)*100)/100;
-    return {pkg, exact, students, disc, gst, programme, addon, addonAmt, base, discAmt, gstAmt, finalPer, total: Math.round(finalPer*students*100)/100};
+    const totalDisc = Math.round(discAmt*students*100)/100;          // discount across all students (before tax)
+    return {pkg, exact, students, disc, gst, programme, addon, addonAmt, base, discAmt, totalDisc, afterDisc, gstAmt, finalPer, total: Math.round(finalPer*students*100)/100};
   }
 
   // ---- estimate number / date ----
@@ -599,7 +622,7 @@ footer b{color:var(--ink)}
     if (!generated) { shown = 0; }
     else {
       $('genNo').textContent = generated.rec.estNo;
-      $('heroFor').textContent = 'For ' + generated.rec.school;
+      $('heroFor').innerHTML = 'For ' + esc(generated.rec.school) + '<small>Attn: ' + esc(generated.rec.incharge || '') + ' · Prepared by ' + esc(generated.rec.execName || '') + '</small>';
       tweenPrice(r.finalPer);
     }
     $('total').textContent = inr(r.total);
@@ -609,6 +632,7 @@ footer b{color:var(--ink)}
       `<span class="hb">Trains ${TRAINER_LABEL[pkg.trainer].toLowerCase()}</span>` +
       `<span class="hb">${OPTIONAL.filter(o => pkg[o.k]).length + ALWAYS.length + (r.addon ? 1 : 0)} items included</span>` +
       (r.addon ? `<span class="hb">+ Additional service</span>` : '') +
+      (r.disc ? `<span class="hb save">Discount ${inr2(r.discAmt)}/student · ${inr(r.totalDisc)} total</span>` : '') +
       (!exact ? `<span class="hb warn">Trainer changed</span>` : '');
 
     if (!exact){
@@ -625,10 +649,13 @@ footer b{color:var(--ink)}
     $('breakdown').innerHTML =
       `<div class="bd-row"><span>Programme price</span><b>${inr2(r.programme)}</b></div>` +
       (r.addon ? `<div class="bd-row"><span>Additional service (₹${r.addon.rate} rate)</span><b>+ ${inr2(r.addonAmt)}</b></div>` : '') +
-      (r.disc ? `<div class="bd-row minus"><span>Discount (${r.disc}%)</span><b>− ${inr2(r.discAmt)}</b></div>` : '') +
+      (r.disc ? `<div class="bd-row sub"><span>Price before discount</span><b>${inr2(r.base)}</b></div>` +
+                `<div class="bd-row minus save"><span>Discount per student (${r.disc}%)</span><b>− ${inr2(r.discAmt)}</b></div>` +
+                `<div class="bd-row sub"><span>Price after discount</span><b>${inr2(r.afterDisc)}</b></div>` : '') +
       (r.gst ? `<div class="bd-row"><span>Tax / GST (${r.gst}%)</span><b>+ ${inr2(r.gstAmt)}</b></div>` : '') +
       `<div class="bd-row final"><span>Final per student</span><b>${inr2(r.finalPer)}</b></div>` +
       `<div class="bd-row"><span>× Students</span><b>${r.students.toLocaleString('en-IN')}</b></div>` +
+      (r.disc ? `<div class="bd-row minus save"><span>Total discount (${inr2(r.discAmt)} × ${r.students.toLocaleString('en-IN')} students)</span><b>− ${inr2(r.totalDisc)}</b></div>` : '') +
       `<div class="bd-row final"><span>Grand total</span><b>${inr(r.total)}</b></div>` +
       `<div class="bd-words"><b>In words:</b> ${amountInWords(r.total)}</div>`;
 
@@ -678,12 +705,23 @@ footer b{color:var(--ink)}
     const schoolLines = doc.splitTextToSize(rec.school, W/2-M-6);
     doc.text(schoolLines, M, y+6);
     doc.setFont('helvetica','normal'); doc.setFontSize(10);
-    doc.text('Number of students: ' + r.students.toLocaleString('en-IN'), M, y+6+schoolLines.length*5.5);
+    let ly = y+6+schoolLines.length*5.5;
+    if (rec.incharge) { doc.text('Attn: ' + rec.incharge, M, ly); ly += 5.5; }
+    doc.text('Number of students: ' + r.students.toLocaleString('en-IN'), M, ly);
     doc.setFont('helvetica','bold'); doc.setFontSize(11);
     doc.text('AI & Future-Tech School Curriculum', W/2+4, y+6);
     doc.setFont('helvetica','normal'); doc.setFontSize(10);
     doc.text(`Training model: Developer trains ${TRAINER_LABEL[pkg.trainer].toLowerCase()}`, W/2+4, y+11.5);
-    y += 14 + Math.max(schoolLines.length*5.5, 10);
+    let ry = y + 11.5;
+    if (rec.execName || rec.execEmail) {
+      ry += 7.5;
+      doc.setTextColor(...MUT); doc.setFontSize(8.5); doc.setFont('helvetica','bold'); doc.text('PREPARED BY', W/2+4, ry);
+      doc.setTextColor(...NAVY); doc.setFontSize(10); doc.setFont('helvetica','bold');
+      if (rec.execName) { ry += 5.5; doc.text(rec.execName, W/2+4, ry); }
+      doc.setFont('helvetica','normal');
+      if (rec.execEmail) { ry += 5; doc.text(rec.execEmail, W/2+4, ry); }
+    }
+    y = Math.max(ly, ry) + 7;
 
     // deliverables table
     const cols = [M, M+12, M+62, W-M-34], colEnd = W-M;
@@ -693,31 +731,36 @@ footer b{color:var(--ink)}
     y += 9;
     const rows = deliverableRows(pkg, st);
     rows.forEach((row, i) => {
-      const h = 7.8;
+      const h = 7.2;
       if (i % 2) { doc.setFillColor(...SOFT); doc.rect(M, y, W-2*M, h, 'F'); }
       doc.setDrawColor(...LINE); doc.line(M, y+h, colEnd, y+h);
       doc.setTextColor(...NAVY); doc.setFont('helvetica','normal'); doc.setFontSize(9.5);
-      doc.text(String(i+1), cols[0]+3, y+5.3);
-      doc.setFont('helvetica','bold'); doc.text(row.name, cols[1]+3, y+5.3);
-      doc.setFont('helvetica','normal'); { let d = doc.splitTextToSize(row.detail, cols[3]-cols[2]-5); doc.text(d.length > 1 ? d[0].replace(/\s+\S*$/, '') + '...' : d[0], cols[2]+3, y+5.3); }
+      doc.text(String(i+1), cols[0]+3, y+4.9);
+      doc.setFont('helvetica','bold'); doc.text(row.name, cols[1]+3, y+4.9);
+      doc.setFont('helvetica','normal'); { let d = doc.splitTextToSize(row.detail, cols[3]-cols[2]-5); doc.text(d.length > 1 ? d[0].replace(/\s+\S*$/, '') + '...' : d[0], cols[2]+3, y+4.9); }
       doc.setFont('helvetica','bold'); doc.setTextColor(...(row.y ? GOOD : BAD));
-      doc.text(row.y ? 'Included' : 'Not Included', cols[3]+3, y+5.3);
+      doc.text(row.y ? 'Included' : 'Not Included', cols[3]+3, y+4.9);
       y += h;
     });
 
     // price summary
-    y += 10;
+    y += 7;
     const bx = W/2+4, bw = W-M-bx;
     const lines = [['Programme price (per student)', rs(r.programme)]];
     if (r.addon) lines.push([`Additional service (per student)`, '+ ' + rs(r.addonAmt)]);
-    if (r.disc) lines.push([`Discount (${r.disc}%)`, '- ' + rs(r.discAmt)]);
+    if (r.disc) {
+      lines.push(['Price before discount (per student)', rs(r.base)]);
+      lines.push([`Discount ${r.disc}% (per student)`, '- ' + rs(r.discAmt), 'save']);
+    }
     if (r.gst) lines.push([`Tax / GST (${r.gst}%)`, '+ ' + rs(r.gstAmt)]);
     lines.push(['Number of students', r.students.toLocaleString('en-IN')]);
-    const bh = 6 + lines.length*7 + 41;
+    if (r.disc) lines.push(['Total discount', '- ' + rs(r.totalDisc), 'save']);
+    const LS = 6.4, bh = 6 + lines.length*LS + 41;
+    if (y + bh > 268) { drawFooter(); doc.addPage(); y = 20; }   // keep the summary block whole
     doc.setFillColor(...SOFT); doc.setDrawColor(...LINE); doc.roundedRect(bx, y, bw, bh, 3, 3, 'FD');
     let yy = y + 9;
-    doc.setFontSize(10);
-    lines.forEach(([k,v]) => { doc.setTextColor(...MUT); doc.setFont('helvetica','normal'); doc.text(k, bx+5, yy); doc.setTextColor(...NAVY); doc.setFont('helvetica','bold'); doc.text(v, bx+bw-5, yy, {align:'right'}); yy += 7; });
+    doc.setFontSize(9.5);
+    lines.forEach(([k,v,kind]) => { const c = kind === 'save' ? GOOD : null; doc.setTextColor(...(c || MUT)); doc.setFont('helvetica', c ? 'bold' : 'normal'); doc.text(k, bx+5, yy); doc.setTextColor(...(c || NAVY)); doc.setFont('helvetica','bold'); doc.text(v, bx+bw-5, yy, {align:'right'}); yy += LS; });
     const pill = (fill, label, value) => {
       doc.setFillColor(...fill); doc.roundedRect(bx+3, yy-3, bw-6, 18, 2, 2, 'F');
       doc.setTextColor(255,255,255); doc.setFont('helvetica','bold');
@@ -737,6 +780,7 @@ footer b{color:var(--ink)}
       'Amounts are in Indian Rupees.'
     ];
     if (st.addon) notes.splice(1, 0, `Additional service: ${(rec.addonName||'').trim() || 'Additional service'} at Rs. ${r.addon.rate} per student.`);
+    if (r.disc) notes.unshift(`A ${r.disc}% discount saves Rs. ${r.discAmt.toLocaleString('en-IN',{minimumFractionDigits:2, maximumFractionDigits:2})} per student, Rs. ${r.totalDisc.toLocaleString('en-IN',{minimumFractionDigits:2, maximumFractionDigits:2})} in total for ${r.students.toLocaleString('en-IN')} students (before tax).`);
     let ny = y + 14;
     notes.forEach(n => { const t = doc.splitTextToSize('•  ' + n, bx - M - 8); doc.text(t, M, ny); ny += t.length*4.6 + 1.5; });
     // grand total in words
@@ -746,15 +790,19 @@ footer b{color:var(--ink)}
     doc.setFont('helvetica','normal'); doc.setFontSize(9.5);
     const wt = doc.splitTextToSize(amountInWords(r.total), bx - M - 8); doc.text(wt, M, ny);
 
-    // footer
-    const fy = 280;
-    for (let i=0;i<steps;i++){ const t=i/(steps-1); doc.setFillColor(VIO[0]+(ORG[0]-VIO[0])*t, VIO[1]+(ORG[1]-VIO[1])*t, VIO[2]+(ORG[2]-VIO[2])*t); doc.rect(M+(W-2*M)*i/steps, fy-6, (W-2*M)/steps+0.2, 0.8, 'F'); }
-    doc.setFontSize(9.5); doc.setFont('helvetica','bold'); doc.setTextColor(...NAVY);
-    doc.text('www.uniqnextgen.in', M, fy);
-    doc.text('admin@uniqnextgen.in', W-M, fy, {align:'right'});
-    doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(...MUT);
-    doc.text('UniqNextGen · A Division of Uniq Technologies · This is a computer-generated estimate.', W/2, fy+5, {align:'center'});
+    drawFooter();
     return doc.output('blob');
+
+    // footer: website, email and a gradient rule on every page
+    function drawFooter(){
+      const fy = 280, n = 60;
+      for (let i=0;i<n;i++){ const t=i/(n-1); doc.setFillColor(VIO[0]+(ORG[0]-VIO[0])*t, VIO[1]+(ORG[1]-VIO[1])*t, VIO[2]+(ORG[2]-VIO[2])*t); doc.rect(M+(W-2*M)*i/n, fy-6, (W-2*M)/n+0.2, 0.8, 'F'); }
+      doc.setFontSize(9.5); doc.setFont('helvetica','bold'); doc.setTextColor(...NAVY);
+      doc.text('www.uniqnextgen.in', M, fy);
+      doc.text('admin@uniqnextgen.in', W-M, fy, {align:'right'});
+      doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(...MUT);
+      doc.text('UniqNextGen · A Division of Uniq Technologies · This is a computer-generated estimate.', W/2, fy+5, {align:'center'});
+    }
   }
 
   const fileName = rec => `Estimate_${rec.estNo}_${rec.school.replace(/[^A-Za-z0-9]+/g,'_').replace(/^_|_$/g,'').slice(0,60) || 'School'}.pdf`;
@@ -814,7 +862,7 @@ footer b{color:var(--ink)}
   function renderSaved(){
     const q = $('search').value.trim().toLowerCase();
     const list = saved.slice().sort((a,b) => (b.updatedAt||'').localeCompare(a.updatedAt||''))
-      .filter(e => !q || (e.school||'').toLowerCase().includes(q) || (e.estNo||'').toLowerCase().includes(q));
+      .filter(e => !q || [e.school, e.estNo, e.incharge, e.execName].some(v => (v||'').toLowerCase().includes(q)));
     if (!saved.length){
       $('estList').innerHTML = `<div class="empty"><b>No estimates yet</b>Fill in a school above and press “Generate estimate”. It will be saved here automatically.</div>`;
       return;
@@ -826,7 +874,7 @@ footer b{color:var(--ink)}
       const col = AV_COLORS[(e.estNo||'').split('').reduce((s,c)=>s+c.charCodeAt(0),0) % AV_COLORS.length];
       return `<div class="est${editing && editing.id===e.id?' editing':''}" style="animation-delay:${Math.min(i,8)*40}ms">
         <span class="av" style="background:${col}">${esc(initial)}</span>
-        <div class="nm"><b>${esc(e.school)}</b><small>${esc(e.estNo)} · ${fmtDate(e.createdAt)}${e.updatedAt!==e.createdAt?' · edited '+fmtDate(e.updatedAt):''}</small></div>
+        <div class="nm"><b>${esc(e.school)}</b><small>${e.incharge ? 'Attn: ' + esc(e.incharge) + ' · ' : ''}${e.execName ? 'By ' + esc(e.execName) + ' · ' : ''}${esc(e.estNo)} · ${fmtDate(e.createdAt)}${e.updatedAt!==e.createdAt?' · edited '+fmtDate(e.updatedAt):''}</small></div>
         <div class="kv k1"><span>${r.students.toLocaleString('en-IN')} students${r.addon?' · + '+esc((e.addonName||'').trim()||'service'):''}</span><b>${inr2(r.finalPer)} / student</b></div>
         <div class="kv k2"><span>Grand total</span><b>${inr(r.total)}</b></div>
         <div class="acts">
@@ -846,7 +894,8 @@ footer b{color:var(--ink)}
     $('school').value = state.school; $('students').value = state.students; $('studentsRange').value = clamp(state.students,50,3000);
     $('discount').value = state.discount; $('gst').value = state.gst;
     $('addonName').value = state.addonName || ''; $('addonName').classList.remove('invalid'); $('addonErr').textContent = '';
-    $('school').classList.remove('invalid'); $('schoolErr').textContent = '';
+    $('incharge').value = state.incharge || ''; $('execName').value = state.execName || ''; $('execEmail').value = state.execEmail || '';
+    ['school','incharge','execName','execEmail'].forEach(id => { $(id).classList.remove('invalid'); $(id+'Err').textContent = ''; });
     $('editbar').hidden = !editing; if (editing) $('editNo').textContent = editing.estNo;
     render(); renderSaved();
   }
@@ -856,7 +905,11 @@ footer b{color:var(--ink)}
   async function generateEstimate(){
     const name = state.school.trim();
     if (!name){ $('school').classList.remove('invalid'); void $('school').offsetWidth; $('school').classList.add('invalid'); $('schoolErr').textContent = 'Type the school name before generating the estimate.'; $('school').focus(); $('school').scrollIntoView({block:'center', behavior:smooth()}); return; }
+    const flag = (id, text) => { const f = $(id); f.classList.remove('invalid'); void f.offsetWidth; f.classList.add('invalid'); $(id+'Err').textContent = text; f.focus(); f.scrollIntoView({block:'center', behavior:smooth()}); };
+    if (!(state.incharge||'').trim()) { flag('incharge', "Type the school in-charge's name."); return; }
     if (!(state.students >= 1)){ toast('Enter the number of students (at least 1).', true); $('students').focus(); return; }
+    if (!(state.execName||'').trim()) { flag('execName', 'Type your name as the executive preparing this estimate.'); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test((state.execEmail||'').trim())) { flag('execEmail', 'Type a valid email address, e.g. name@uniqnextgen.in'); return; }
     if (state.addon && !(state.addonName||'').trim()){ const f = $('addonName'); f.classList.remove('invalid'); void f.offsetWidth; f.classList.add('invalid'); $('addonErr').textContent = 'Type what the additional service is, or untick it.'; f.focus(); f.scrollIntoView({block:'center', behavior:smooth()}); return; }
     const own = editing || current;
     const now = todayISO();
@@ -866,14 +919,16 @@ footer b{color:var(--ink)}
       estNo: own ? own.estNo : nextNo(),
       createdAt: own ? own.createdAt : now,
       updatedAt: now,
-      school: name, students: Math.floor(state.students), trainer: state.trainer,
+      school: name, incharge: state.incharge.trim(), execName: state.execName.trim(), execEmail: state.execEmail.trim(),
+      students: Math.floor(state.students), trainer: state.trainer,
       feats: {...state.feats}, discount: r.disc, gst: r.gst,
-      annexure: r.pkg.id, addon: state.addon ? 1 : 0, addonName: state.addon ? state.addonName.trim() : '', addonRate: r.addon ? r.addon.rate : 0, finalPerStudent: r.finalPer, grandTotal: r.total
+      totalDiscount: r.totalDisc, annexure: r.pkg.id, addon: state.addon ? 1 : 0, addonName: state.addon ? state.addonName.trim() : '', addonRate: r.addon ? r.addon.rate : 0, finalPerStudent: r.finalPer, grandTotal: r.total
     };
     const btn = $('generateBtn'); btn.disabled = true;
     try { await store.put(rec); }
     catch(e){ toast('Could not save the estimate (' + (e && e.code || 'error') + '). Try again.', true); return; }
     finally { btn.disabled = false; }
+    try { localStorage.setItem('ung-exec', JSON.stringify({name: rec.execName, email: rec.execEmail})); } catch(e){}
     if (editing) editing = rec; else current = rec;
     generated = {key: stateKey(state), rec};
     wasStale = false;
@@ -901,6 +956,11 @@ footer b{color:var(--ink)}
   $('students').addEventListener('input', e => { const v = parseInt(e.target.value,10); state.students = isNaN(v)?0:v; $('studentsRange').value = clamp(state.students,50,3000); render(); });
   $('studentsRange').addEventListener('input', e => { state.students = parseInt(e.target.value,10); $('students').value = state.students; render(); });
   $('school').addEventListener('input', e => { state.school = e.target.value; if (state.school.trim()){ $('school').classList.remove('invalid'); $('schoolErr').textContent=''; } render(); });
+  ['incharge','execName','execEmail'].forEach(id => $(id).addEventListener('input', e => {
+    state[id] = e.target.value;
+    if (e.target.value.trim()) { $(id).classList.remove('invalid'); $(id+'Err').textContent = ''; }
+    render();
+  }));
   $('discount').addEventListener('input', e => { state.discount = parseFloat(e.target.value)||0; render(); });
   $('gst').addEventListener('input', e => { state.gst = parseFloat(e.target.value)||0; render(); });
   $('trainers').addEventListener('click', e => { const b = e.target.closest('.tcard'); if(!b) return; state.trainer = b.dataset.t; render(); });
@@ -926,7 +986,7 @@ footer b{color:var(--ink)}
     if (act !== 'del') armedDelete = null;
     if (act === 'edit'){
       editing = rec; current = null; generated = null; wasStale = false;
-      state = {school:rec.school, students:rec.students, trainer:rec.trainer, feats:{...rec.feats}, addon:rec.addon?1:0, addonName:rec.addonName||'', discount:rec.discount||0, gst:rec.gst||0};
+      state = {school:rec.school, incharge:rec.incharge||'', execName:rec.execName||execSaved().name||'', execEmail:rec.execEmail||execSaved().email||'', students:rec.students, trainer:rec.trainer, feats:{...rec.feats}, addon:rec.addon?1:0, addonName:rec.addonName||'', discount:rec.discount||0, gst:rec.gst||0};
       loadForm(); window.scrollTo({top:0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
       toast(`Editing ${rec.estNo}`);
     } else if (act === 'dl'){
@@ -952,7 +1012,7 @@ footer b{color:var(--ink)}
     });
   }
   useStore(localStore());
-  render(); renderSaved();
+  loadForm();   // fills every input from state, including the remembered executive
 
   if (window.claude && typeof window.claude.use === 'function'){
     downloadsReady = window.claude.use('downloads').then(d => (downloads = d)).catch(() => null);
