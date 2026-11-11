@@ -1,0 +1,6 @@
+# build output
+build/
+# copied from estimate-builder/index.html at build time
+assets/index.html
+# signing key and its password: keep safe backups, never commit
+keystore/

@@ -1,0 +1,3 @@
+# Used when only the web folder is deployed.
+# local-only helper, not needed on the website
+*.bat

@@ -1,0 +1,7 @@
+* text=auto
+# shell scripts must keep LF endings or bash fails on them
+*.sh text eol=lf
+# Windows batch files want CRLF
+*.bat text eol=crlf
+*.png binary
+*.jpg binary

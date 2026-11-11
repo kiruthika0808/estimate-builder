@@ -1,0 +1,16 @@
+# Upload ONLY the estimate builder web app to Vercel.
+# Everything else in this folder (presentations, images, the Android project,
+# its signing key, the APK) stays on this computer.
+/*
+!/web
+!/vercel.json
+
+# local-only helper, not needed on the website
+/web/*.bat
+
+# safety net: never upload signing keys or their passwords, wherever they are
+*.jks
+*.keystore
+keystore.properties
+**/keystore
+*.apk

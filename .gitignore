@@ -1,0 +1,21 @@
+# Built APKs (share them as GitHub release files instead of committing them)
+releases/
+*.apk
+*.idsig
+
+# Android build output and the copy of web/index.html made at build time
+android-app/build/
+android-app/assets/index.html
+
+# APK signing key and its password: keep private backups, NEVER commit
+android-app/keystore/
+*.jks
+*.keystore
+keystore.properties
+
+# OS / editor clutter
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.vercel/
