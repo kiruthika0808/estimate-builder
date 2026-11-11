@@ -776,10 +776,9 @@ footer b{color:var(--ink)}
     doc.text('Notes', M, y+8);
     doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(...MUT);
     const notes = [
-      'Assessment File, Tickora Parental App and Industrial Visit are always included.',
       'Amounts are in Indian Rupees.'
     ];
-    if (st.addon) notes.splice(1, 0, `Additional service: ${(rec.addonName||'').trim() || 'Additional service'} at Rs. ${r.addon.rate} per student.`);
+    if (st.addon) notes.splice(0, 0, `Additional service: ${(rec.addonName||'').trim() || 'Additional service'} at Rs. ${r.addon.rate} per student.`);
     if (r.disc) notes.unshift(`A ${r.disc}% discount saves Rs. ${r.discAmt.toLocaleString('en-IN',{minimumFractionDigits:2, maximumFractionDigits:2})} per student, Rs. ${r.totalDisc.toLocaleString('en-IN',{minimumFractionDigits:2, maximumFractionDigits:2})} in total for ${r.students.toLocaleString('en-IN')} students (before tax).`);
     let ny = y + 14;
     notes.forEach(n => { const t = doc.splitTextToSize('•  ' + n, bx - M - 8); doc.text(t, M, ny); ny += t.length*4.6 + 1.5; });
