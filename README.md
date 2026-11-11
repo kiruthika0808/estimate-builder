@@ -1,5 +1,7 @@
 # UniqNextGen Estimate Builder
 
+**Live app:** https://estimate-builder-kappa.vercel.app
+
 A single-page app for building school estimates for the **AI & Future-Tech School Curriculum**.
 Type the school name, choose the training model, tick the items, press **Generate estimate**,
 and download a branded PDF. Every generated estimate is saved so it can be edited later.
