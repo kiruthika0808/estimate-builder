@@ -484,6 +484,7 @@ footer b{color:var(--ink)}
   ];
   const AV_COLORS = ['#6c3fd6','#e3437f','#f06a22','#0e8a7d','#e9a30f','#3b5bdb','#c0307a'];
   const TRAINER_LABEL = {students:'Students', teachers:'Computer teachers'};
+  const MAX_PRICE = 2500;   // maximum price per student, before discount and tax
   const execSaved = () => { try { return JSON.parse(localStorage.getItem('ung-exec') || '{}'); } catch(e){ return {}; } };
   const fresh = () => ({school:'', incharge:'', execName: execSaved().name || '', execEmail: execSaved().email || '', students:300, trainer:'students', feats:{books:0,notebook:0,competitions:0,robotics:0}, addon:0, addonName:'', discount:0, gst:0, showTotal:0});
   let state = fresh();
@@ -567,13 +568,16 @@ footer b{color:var(--ink)}
     const programme = pkg.price;
     const addon = st.addon ? addonRate(students) : null;
     const addonAmt = addon ? addon.rate : 0;
-    const base = programme + addonAmt;
+    // whatever is selected, the price per student never goes above the ₹2,500 limit (before discount and tax)
+    const rawBase = programme + addonAmt;
+    const capAdj = Math.max(0, rawBase - MAX_PRICE);
+    const base = rawBase - capAdj;
     const discAmt = Math.round(base*disc)/100;
     const afterDisc = base - discAmt;
     const gstAmt = Math.round(afterDisc*gst)/100;
     const finalPer = Math.round((afterDisc + gstAmt)*100)/100;
     const totalDisc = Math.round(discAmt*students*100)/100;          // discount across all students (before tax)
-    return {pkg, exact, students, disc, gst, programme, addon, addonAmt, base, discAmt, totalDisc, afterDisc, gstAmt, finalPer, total: Math.round(finalPer*students*100)/100};
+    return {pkg, exact, students, disc, gst, programme, addon, addonAmt, rawBase, capAdj, base, discAmt, totalDisc, afterDisc, gstAmt, finalPer, total: Math.round(finalPer*students*100)/100};
   }
 
   // ---- estimate number / date ----
@@ -656,11 +660,13 @@ footer b{color:var(--ink)}
         ? `<div class="notice ok">${svg('ok')}<div>This is the lowest price for the ticked items, and it also includes <b>${bonus.join(', ')}</b> at no extra cost.</div></div>`
         : `<div class="notice ok">${svg('ok')}<div>This is the lowest price for exactly the ticked items.</div></div>`;
     }
+    if (r.capAdj) $('notice').innerHTML += `<div class="notice ok" style="margin-top:8px">${svg('ok')}<div>The selection adds up to ${inr2(r.rawBase)}, so the price is held at the <b>maximum of ${inr(MAX_PRICE)} per student</b>.</div></div>`;
 
     $('pkgName').textContent = '';
     $('breakdown').innerHTML =
       `<div class="bd-row"><span>Programme price</span><b>${inr2(r.programme)}</b></div>` +
       (r.addon ? `<div class="bd-row"><span>Additional service (₹${r.addon.rate} rate)</span><b>+ ${inr2(r.addonAmt)}</b></div>` : '') +
+      (r.capAdj ? `<div class="bd-row minus save"><span>Maximum price limit (${inr(MAX_PRICE)}) adjustment</span><b>− ${inr2(r.capAdj)}</b></div>` : '') +
       (r.disc ? `<div class="bd-row sub"><span>Price before discount</span><b>${inr2(r.base)}</b></div>` +
                 `<div class="bd-row minus save"><span>Discount per student (${r.disc}%)</span><b>− ${inr2(r.discAmt)}</b></div>` +
                 `<div class="bd-row sub"><span>Price after discount</span><b>${inr2(r.afterDisc)}</b></div>` : '') +
@@ -762,6 +768,7 @@ footer b{color:var(--ink)}
     const bx = W/2+4, bw = W-M-bx;
     const lines = [['Programme price (per student)', rs(r.programme)]];
     if (r.addon) lines.push([`Additional service (per student)`, '+ ' + rs(r.addonAmt)]);
+    if (r.capAdj) lines.push([`Maximum price limit adjustment`, '- ' + rs(r.capAdj), 'save']);
     if (r.disc) {
       lines.push(['Price before discount (per student)', rs(r.base)]);
       lines.push([`Discount ${r.disc}% (per student)`, '- ' + rs(r.discAmt), 'save']);
@@ -793,6 +800,7 @@ footer b{color:var(--ink)}
       'Amounts are in Indian Rupees.'
     ];
     if (st.addon) notes.splice(0, 0, `Additional service: ${(rec.addonName||'').trim() || 'Additional service'} at Rs. ${r.addon.rate} per student.`);
+    if (r.capAdj) notes.splice(0, 0, `Price held at the maximum of Rs. ${MAX_PRICE.toLocaleString('en-IN')} per student.`);
     const fmt2 = n => n.toLocaleString('en-IN',{minimumFractionDigits:2, maximumFractionDigits:2});
     if (r.disc) notes.unshift(showTotal
       ? `A ${r.disc}% discount saves Rs. ${fmt2(r.discAmt)} per student, Rs. ${fmt2(r.totalDisc)} in total for ${r.students.toLocaleString('en-IN')} students (before tax).`
