@@ -480,7 +480,11 @@ footer b{color:var(--ink)}
     {id:4, price:1500, trainer:'teachers', books:1, notebook:1, competitions:1, robotics:0, pc:'var(--teal)'},
     {id:5, price:1200, trainer:'students', books:0, notebook:0, competitions:0, robotics:0, pc:'var(--sun)'},
     {id:6, price:1200, trainer:'teachers', books:0, notebook:0, competitions:1, robotics:0, pc:'var(--violet)'},
-    {id:7, price:1000, trainer:'teachers', books:0, notebook:0, competitions:0, robotics:0, pc:'var(--pink)'}
+    {id:7, price:1000, trainer:'teachers', books:0, notebook:0, competitions:0, robotics:0, pc:'var(--pink)'},
+    // Derived (not in the annexure PDF): computer teachers trained + all materials.
+    // Annexure 1 (students, all) 2500 minus the faculty saving of training teachers instead of students
+    // (Annexure 2 - Annexure 4 = 500) = 2000; equally Annexure 4 + Robotics Lab (Annexure 1 - Annexure 2 = 500).
+    {id:8, price:2000, trainer:'teachers', books:1, notebook:1, competitions:1, robotics:1, pc:'var(--teal)'}
   ];
   const AV_COLORS = ['#6c3fd6','#e3437f','#f06a22','#0e8a7d','#e9a30f','#3b5bdb','#c0307a'];
   const TRAINER_LABEL = {students:'Students', teachers:'Computer teachers'};
