@@ -35,6 +35,11 @@ Then open http://localhost:8080. Saved estimates are kept in that browser's loca
 Import this repo in Vercel with Framework Preset **Other**, no build command, Root Directory left empty.
 A tiny root `index.html` forwards visitors to `web/`, so the site root works on any static host. Saved estimates stay in each visitor's own browser.
 
+## User guide
+
+[`docs/UniqNextGen-Estimate-Builder-User-Guide.pdf`](docs/UniqNextGen-Estimate-Builder-User-Guide.pdf) explains every screen for staff.
+To rebuild it after changing the app, refresh the images in `docs/screenshots/` and run `python docs/build_user_guide.py` (needs `reportlab` and Pillow, on Windows for the Segoe UI font).
+
 ## Build the Android APK
 
 Needs JDK 17 and the Android SDK (`build-tools;34.0.0`, `platforms;android-34`). In Git Bash:
