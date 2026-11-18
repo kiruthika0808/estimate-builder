@@ -31,6 +31,10 @@
   --shadow:0 10px 30px -12px rgba(0,0,0,.6); color-scheme:dark;
 }
 *{box-sizing:border-box}
+/* base rules the claude.ai host adds itself; needed when the file is served on its own (Vercel, local, APK) */
+[hidden]{display:none!important}
+html,body{margin:0}
+img{max-width:100%}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;overflow-x:hidden;position:relative}
 .blobs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .blobs i{position:absolute;width:42vmax;height:42vmax;border-radius:50%;filter:blur(70px);opacity:.2;animation:drift 22s ease-in-out infinite alternate}
