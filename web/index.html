@@ -506,7 +506,8 @@ footer b{color:var(--ink)}
 
   const $ = id => document.getElementById(id);
   const inr = n => '₹' + Math.round(n).toLocaleString('en-IN');
-  const inr2 = n => '₹' + n.toLocaleString('en-IN',{minimumFractionDigits:0, maximumFractionDigits:2});
+  // whole rupees stay whole (₹2,000); amounts with paise always show two decimals (₹2,042.50)
+  const inr2 = n => { const whole = Math.abs(n - Math.round(n)) < 0.005; return '₹' + n.toLocaleString('en-IN',{minimumFractionDigits: whole ? 0 : 2, maximumFractionDigits: whole ? 0 : 2}); };
   const rs = n => 'Rs. ' + n.toLocaleString('en-IN',{minimumFractionDigits:2, maximumFractionDigits:2});
   const clamp = (v,a,b) => Math.min(b, Math.max(a, v));
   const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
